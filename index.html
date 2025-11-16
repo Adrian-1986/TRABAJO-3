@@ -1,0 +1,248 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Reproducción Grid — CSS Grid</title>
+<style>
+  /* ===== Variables generales: ajusta aquí el esquema ===== */
+  :root{
+    --gutter: 16px;
+    --cols-desktop: 12;
+    --max-width: 1200px;
+    --bg: #0f172a;
+    --card-bg: linear-gradient(180deg,#ffffff 0%, #f1f5f9 100%);
+    --accent: #06b6d4;
+    --radius: 12px;
+    --text: #0b1220;
+    --muted: #4b5563;
+    --shadow: 0 8px 20px rgba(2,6,23,0.12);
+    --fz: 16px;
+  }
+
+  /* ===== Reset y base ===== */
+  *{box-sizing:border-box}
+  html,body{height:100%}
+  body{
+    margin:0;
+    font-family: Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+    background: linear-gradient(180deg, #071024 0%, #0d1b2a 100%);
+    color: white;
+    -webkit-font-smoothing:antialiased;
+    -moz-osx-font-smoothing:grayscale;
+    font-size:var(--fz);
+    padding:40px 20px;
+    display:flex;
+    justify-content:center;
+  }
+
+  .wrap{
+    width:100%;
+    max-width:var(--max-width);
+    margin:0 auto;
+  }
+
+  h1{
+    margin:0 0 18px 0;
+    font-size: clamp(20px, 2.6vw, 28px);
+    color: #e6eef6;
+    font-weight:700;
+    letter-spacing: -0.02em;
+  }
+  p.lead{
+    margin:0 0 28px 0;
+    color: #bcd1df;
+    max-width:70ch;
+  }
+
+  /* ===== Grid container ===== */
+  .grid {
+    display: grid;
+    gap: var(--gutter);
+    grid-template-columns: repeat(var(--cols-desktop), 1fr);
+    grid-auto-rows: auto;
+    align-items: stretch;
+    background: transparent;
+  }
+
+  /* Estilos para las celdas */
+  .cell {
+    background: var(--card-bg);
+    color: var(--text);
+    border-radius: var(--radius);
+    padding: 18px;
+    box-shadow: var(--shadow);
+    display:flex;
+    flex-direction:column;
+    gap:12px;
+    min-height: 80px;
+    overflow:hidden;
+  }
+
+  .cell img {
+    width:100%;
+    height: 200px;
+    border-radius: var(--radius);
+    object-fit: cover;
+  }
+
+  .cell .eyebrow{
+    font-size:12px;
+    text-transform:uppercase;
+    color:var(--muted);
+    letter-spacing:0.12em;
+  }
+  .cell h3{
+    margin:0;
+    font-size:16px;
+    line-height:1.1;
+  }
+  .cell p{
+    margin:0;
+    color: #23303b;
+    font-size:14px;
+  }
+  .meta{
+    margin-top:auto;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    gap:10px;
+    color: #64748b;
+    font-size:13px;
+  }
+
+  .cell{
+    grid-column: var(--col, auto);
+    grid-row: auto / span var(--row-span, 1);
+  }
+
+  /* ===== Responsive ===== */
+  @media (max-width: 1000px) {
+    :root{ --cols-desktop: 8; }
+  }
+  @media (max-width: 720px) {
+    :root{ --cols-desktop: 4; }
+    .grid { gap: 12px; }
+    .cell{ padding:14px; }
+  }
+  @media (max-width: 420px) {
+    :root{ --cols-desktop: 2; }
+    .grid { gap: 10px; }
+    body { padding: 20px 12px; }
+  }
+
+  /* ===== Utilidades de spans ===== */
+  .span-1{ grid-column: span 1; }
+  .span-2{ grid-column: span 2; }
+  .span-3{ grid-column: span 3; }
+  .span-4{ grid-column: span 4; }
+  .span-6{ grid-column: span 6; }
+
+  /* ===== Animación ===== */
+  .cell{ 
+    transform: translateY(6px); 
+    opacity:0; 
+    animation: lift 0.45s ease-out forwards; 
+  }
+  @keyframes lift { 
+    to { transform:none; opacity:1 } 
+  }
+
+  /* ===== Accesibilidad ===== */
+  .cell:focus-within{ 
+    outline: 3px solid rgba(6,182,212,0.2); 
+    outline-offset: 4px; 
+  }
+
+</style>
+</head>
+<body>
+  <main class="wrap" role="main" aria-label="Ejemplo de grid con CSS Grid">
+    <h1>Reproducción de grid (CSS Grid)</h1>
+    <p class="lead">Adrian
+    <section class="grid" aria-label="Cuadrícula de ejemplo">
+      <!-- Item 1: ocupa 6 columnas -->
+      <article class="cell" tabindex="0" style="--row-span:1; grid-column: 1 / span 6;">
+        <img src="images/Paisaje.png" alt="Imagen de paisaje" />
+        <div class="eyebrow"Imagen</div><p>Imagen</p>
+        <h3>Item 1</h3>
+        <p>Imagen de paisaje</p>
+        <div class="meta"><span></span><span></span></div>
+      </article>
+
+      <!-- Item 2: ocupa 3 columnas -->
+      <article class="cell" tabindex="0" style="--row-span:1; grid-column: 7 / span 3;">
+        <img src="images/Tenologia.jpg" alt="Imagen de tecnología" />
+        <div class="eyebrow">Imagen</div>
+        <h3>Item 2</h3>
+        <p>Imagen de tecnología</p>
+        <div class="meta"><span></span></div>
+      </article>
+
+      <!-- Item 3: ocupa 3 columnas -->
+      <article class="cell" tabindex="0" style="--row-span:1; grid-column: 10 / span 3;">
+        <img src="images/Minimalista.jpg" alt="Imagen minimalista" />
+        <div class="eyebrow">Imagen</div>
+        <h3>Item 3</h3>
+        <p>Imagen minimalista
+
+        </p>
+        <div class="meta"><span></span></div>
+      </article>
+
+      <!-- Row 2: varias cards pequeñas -->
+      <article class="cell span-4" tabindex="0" style="grid-column: 1 / span 4;">
+        <img src="images/Arte.jpg" alt="Imagen de arte" />
+        <div class="eyebrow">Imagen</div>
+        <p>Imagen de arte
+
+        </p>
+        <h3>Item 4</h3>
+      </article>
+
+      <article class="cell span-4" tabindex="0" style="grid-column: 5 / span 4;">
+        <img src="images/Diseno.webp" alt="Imagen de diseño" />
+        <div class="eyebrow">Imagen</div>
+        <p>
+          Imagen de diseño
+        </p>
+        <h3>Item 5</h3>
+      </article>
+
+      <article class="cell span-4" tabindex="0" style="grid-column: 9 / span 4;">
+        <img src="images/Patron.jpg" alt="Imagen de patrón" />
+        <div class="eyebrow">Imagen</div>
+        <p>
+          Imagen de patrón
+        </p>
+        <h3>Item 6</h3>
+      </article>
+
+      <!-- Item grande que ocupa varias filas -->
+      <article class="cell" tabindex="0" style="grid-column: 1 / span 6; --row-span:2;">
+        <img src="images/Abstracta.png" alt="Imagen abstracta" />
+        <div class="eyebrow">Imagen</div>
+        <h3>Item 7</h3>
+        <p>Imagen abstracta</p>
+        <div class="meta"><span></span></div>
+      </article>
+
+      <!-- Últimos items -->
+      <article class="cell span-3" tabindex="0" style="grid-column: 7 / span 3;">
+        <img src="images/Naturaleza.jpg" alt="Imagen de naturaleza" />
+        <div class="eyebrow">Imagen</div>
+        <h3>Item 8</h3>
+        <p>Imagen de naturaleza</p>
+      </article>
+
+      <article class="cell span-3" tabindex="0" style="grid-column: 10 / span 3;">
+        <img src="images/Urbana.png" alt="Imagen urbana" />
+        <div class="eyebrow">Imagen</div>
+        <h3>Item 9</h3>
+        <p>Imagen urbana</p>
+      </article>
+    </section>
+  </main>
+</body>
+</html>
